@@ -1,0 +1,26 @@
+html
+{
+    font-family:monospace;
+}
+#sidebar
+{
+    max-width:200px;
+    display:inline-block;
+    vertical-align: top;
+    margin:50px;
+}
+canvas
+{
+    display:inline-block;
+    margin-top:50px;
+}
+
+#palette,#spritesheet
+{
+    height:100px;
+}
+
+button
+{
+    margin:10px auto;
+}

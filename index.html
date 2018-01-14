@@ -3,14 +3,29 @@
   <head>
     <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
     <style> body {padding: 0; margin: 0;} </style>
-    <script src="../p5.min.js"></script>
-    <script src="../addons/p5.dom.min.js"></script>
+    <script src="lib/p5.min.js"></script>
+    <script src="lib/p5.dom.min.js"></script>
     <script src="sketch2.js"></script>
+    <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
-    <div style="display:inline-block">
-      <div  id="palette"></div>
-      <div  id="spritesheet"></div>
+    <div id="sidebar">
+      <div id="title">SUPER.bin</div>
+      <div id="instructions">
+        <p>
+          This tool generates SNES data from image files.
+          Upload a palette and spritesheet. 
+          Palette should be 16x1 pixels. 
+          With the first pixel being the background colour. (Transparency is fine).
+          Spritesheet should be 128x128 pixels. 
+        </p>
+      </div>
+      <div  id="palette">
+        <p>Upload Palette</p>
+      </div>
+      <div  id="spritesheet">
+        <p>Upload Spritesheet</p>
+      </div>
   </div>
   </body>
 </html>

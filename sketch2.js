@@ -5,7 +5,7 @@ var bytes = new Uint8Array(32);
 
 var spriteColours = [];
 var spriteIndex = [];
-var spriteBytes = new Uint8Array();
+var spriteBytes = new Uint8Array((128*128*4)/8);
 
 var P_OFFSET = [20,50];
 var P_SIZE = 20;
@@ -22,19 +22,21 @@ var sprites = false;
 var outTxt ="";
 var count = 0;
 
+var sDownload;
+var pDownload;
+
 
 function setup() {
-  var can = createCanvas(500, 500);
+  var can = createCanvas(370, 370);
   
   palInput = createFileInput(handleFile);
   palInput.parent('#palette');
   spriteInput = createFileInput(handleSprites);
   spriteInput.parent('#spritesheet');
 
-  
+  downloadPalette();
+  downloadSprites();
   noLoop();
-  
-
 }
 
 function draw() {
@@ -76,11 +78,7 @@ function handleFile(file) {
     paletteImg = loadImage(file.data, function (){
       
       palette = true;
-      button = createButton('download');
-      button.position(10, 80);
-      button.mousePressed(function(){
-        download(bytes, "test.bin", "text/plain");
-      });
+      
       redraw();
     });  
   } 
@@ -93,6 +91,7 @@ function handleSprites(file) {
         spriteImg = loadImage(file.data, function (){
         spriteDImg = spriteImg.get();
         spriteDImg.resize(spriteDImg.width*2, spriteDImg.height*2);
+        spriteColours = []; //reset spriteColours;
         sprites = true;
         parseSheet();
         redraw();
@@ -131,6 +130,7 @@ function parsePalette(x,y)
     bytes[i*2]= String.fromCharCode(unhex(colour.substring(2,4))).charCodeAt(0);
     bytes[i*2+1]=String.fromCharCode(unhex(colour.substring(0,2))).charCodeAt(0);
   }
+  document.getElementById("palbut").removeAttribute("disabled");
  // 
 }
 
@@ -177,6 +177,15 @@ function parseSheet()
  
 }
 
+function addButton(text, el, id, handler)
+{
+  var button = createButton(text);
+  button.parent(el);
+  button.id(id);
+  button.mousePressed(handler);
+  return button;
+}
+
 function mousePressed() {
   if(mouseX > P_OFFSET[0] && 
     mouseX < P_OFFSET[0]+P_SIZE*16 &&
@@ -190,11 +199,27 @@ function mousePressed() {
     }
 }
 
+function downloadSprites(){
+  var button = addButton('Download sprites.bin',"#spritesheet","spritebut", function(){
+    download(spriteBytes, "sprites.bin", "text/plain");
+  });
+  document.getElementById("spritebut").setAttribute("disabled",true);
+}
+
+function downloadPalette(){
+  var button = addButton("Download palette.bin","#palette","palbut", function(){
+    download(bytes, "palette.bin", "text/plain");
+  });
+  document.getElementById("palbut").setAttribute("disabled",true);
+}
+
 function beginConversion(){
+  count = 0;
+  outTxt = "";
 outTxt += "const unsigned char sprite_data[] = { \n";
 var first = true;
 
-for (var j = 0; j < 4; j++) //4 sprites
+for (var j = 0; j < 16; j++) //4 sprites
 {
     for (var i = 0; i < 16; i++) //16p wide
     {
@@ -221,6 +246,7 @@ for (var j = 0; j < 4; j++) //4 sprites
                 first = false;
                 outTxt += "  " + line_value;
             }
+            spriteBytes[count++] = (line_value);
 
             linestart = topleft + k * 128;
             line_value = 0;
@@ -233,10 +259,10 @@ for (var j = 0; j < 4; j++) //4 sprites
             }
 
             outTxt += ", " + line_value;
+            spriteBytes[count++] = line_value;
         }
 
         outTxt += "\n";
-        count++;
 
         for (var k = 0; k < 8; k++)
         {
@@ -251,6 +277,7 @@ for (var j = 0; j < 4; j++) //4 sprites
             }
 
             outTxt += ", " + line_value;
+            spriteBytes[count++] = line_value;
 
             linestart = topleft + k * 128;
             line_value = 0;
@@ -263,19 +290,17 @@ for (var j = 0; j < 4; j++) //4 sprites
             }
 
             outTxt +=", " + line_value;
+            spriteBytes[count++] = line_value;
         }
 
         outTxt +="\n";
-        count++;
+        
     }
 }
 
 outTxt += "};";
-outTxt = "#define sprite_data_size " + count*16 + "\n" + outTxt;
+outTxt = "#define sprite_data_size " + count + "\n" + outTxt;
 
-button = createButton('download');
-button.position(10, 140);
-button.mousePressed(function(){
-  download(outTxt, "test.c", "text/plain");
-});
+document.getElementById("spritebut").removeAttribute("disabled");
+
 }

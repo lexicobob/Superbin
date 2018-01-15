@@ -2,18 +2,21 @@ html
 {
     font-family:monospace;
 }
-#sidebar
+#sidebar, #tilebar
 {
-    max-width:200px;
+    width:auto;
+    max-width:20%;
     display:inline-block;
     vertical-align: top;
     margin:50px;
 }
-canvas
+#drawing
 {
+    width:552px ;
     display:inline-block;
     margin-top:50px;
 }
+
 
 #palette,#spritesheet
 {

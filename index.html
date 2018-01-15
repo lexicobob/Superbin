@@ -6,6 +6,7 @@
     <script src="lib/p5.min.js"></script>
     <script src="lib/p5.dom.min.js"></script>
     <script src="sketch2.js"></script>
+    
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
@@ -22,10 +23,24 @@
       </div>
       <div  id="palette">
         <p>Upload Palette</p>
+        <input type="file" id="palInput" onchange="newPalette()"/>
       </div>
       <div  id="spritesheet">
         <p>Upload Spritesheet</p>
+        <input type="file" id="palInput" onchange="newSpritesheet()"/>
       </div>
+      
+  </div>
+  <div id="drawing"></div>
+  <div id="tilebar">
+    <p>Tile maps. <br/>
+      Use this section to upload tile maps to generate tile 
+      data and background data. 
+    </p>
+    <div id="tilemap">
+      <p>Upload Tilemap</p>
+      <input type="file" id="palInput" onchange="newTilemap()"/>
+    </div>
   </div>
   </body>
 </html>

@@ -18,12 +18,24 @@ html
 }
 
 
-#palette,#spritesheet
+button.small{
+    width:10px;
+    height:15px;
+    display:inline-block;
+    margin-top:10px;
+}
+
+span.explainer
 {
-    height:100px;
+    display:block;
+    height:1em;
 }
 
 button
 {
-    margin:10px auto;
+    /* margin:10px auto; */
+}
+select {
+    min-width:150px;
+    display:block;
 }

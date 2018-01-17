@@ -5,7 +5,11 @@
     <style> body {padding: 0; margin: 0;} </style>
     <script src="lib/p5.min.js"></script>
     <script src="lib/p5.dom.min.js"></script>
-    <script src="sketch2.js"></script>
+    <script src="utilities.js"></script>
+    <script src="palette.js"></script>
+    <script src="spritesheet.js"></script>
+    <script src="tilesheet.js"></script>
+    <script src="sketch3.js"></script>
     
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
@@ -21,15 +25,32 @@
           Spritesheet should be 128x128 pixels. 
         </p>
       </div>
-      <div  id="palette">
+      <div id="palette">
         <p>Upload Palette</p>
-        <input type="file" id="palInput" onchange="newPalette()"/>
+        <input type="file" id="palInput" onchange="handlePalette(this)"/>
+        <p>Select working palette:
+        <select id="paletteList" size=4 onchange="selectPalette(this)" onkeydown="onDelete(event)">
+        </select>
+        </p>
+        <button id="palbut" onclick="downloadPalette()" >Download palette.bin</button>
       </div>
-      <div  id="spritesheet">
+      <div id="spritesheet">
         <p>Upload Spritesheet</p>
-        <input type="file" id="palInput" onchange="newSpritesheet()"/>
+        <input type="file" id="palInput" onchange="handleSpritesheet(this)"/>
+        <p>Select working spritesheet:
+          <select id="spriteList" size=4 onchange="selectSpritesheet(this)" onkeydown="onDelete(event)">
+          </select>
+          <button id="s2p" class="small" value="create palette" 
+          onmouseover="explain(this)" 
+          onmouseout="unexplain()"
+          onclick="s2p()"></button>
+        <span class="explainer"></span>
+          </p>
+        <button id="spritebut" onclick="downloadSheet()">Download sprites.bin</button>
       </div>
-      
+      <div>
+        
+    </div>
   </div>
   <div id="drawing"></div>
   <div id="tilebar">
@@ -39,7 +60,21 @@
     </p>
     <div id="tilemap">
       <p>Upload Tilemap</p>
-      <input type="file" id="palInput" onchange="newTilemap()"/>
+      <input type="file" id="palInput" onchange="handleTilesheet(this)"/>
+      <p>Select working tilesheet:
+        <select id="tileList" size=4 onchange="selectTilesheet(this)" onkeydown="onDelete(event)">
+        </select>
+        <button id="t2s" class="small" value="create spritesheet" 
+          onmouseover="explain(this)" 
+          onmouseout="unexplain()"
+          onclick="t2s()"></button>
+        <button id="t2m" class="small" value="create tilemap" 
+        onmouseover="explain(this)" 
+        onmouseout="unexplain()"
+        onclick="t2m()"></button>
+        <span class="explainer"></span>
+        </p>
+      <button id="tilebut" onclick="downloadTiles()" >Download tiles.bin</button>
     </div>
   </div>
   </body>
